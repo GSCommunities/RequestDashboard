@@ -170,7 +170,7 @@ button {
         
     </form>
     
-<button type="button" onclick="goToDashboard()" style="background:#2c3e50; color:white; padding: 4px 10px; font-size: 12px; margin-top:20px;border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;">
+<button type="button" onclick="goToDashboard()" style="background:#2c3e50; color:white; padding: 4px 10px; font-size: 12px; margin-top:20px;">
     Employee Access
 </button>
     
@@ -208,7 +208,7 @@ document.getElementById("ticketForm").addEventListener("submit", function(e) {
 
     alert("Ticket submitted successfully!");
     document.getElementById("ticketForm").reset();
-};
+});
 
 function goToDashboard() {
     const password = prompt("Enter employee passcode:");
