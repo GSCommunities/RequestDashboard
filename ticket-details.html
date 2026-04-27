@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ticket Details</title>
+
+<style>
+body { margin:0; font-family: Arial; background:#f5f5f5; }
+
+.header {
+    display:flex;
+    align-items:center;
+    padding:15px 30px;
+    background:white;
+    border-bottom:1px solid #ddd;
+}
+.header img { height:50px; margin-right:15px; }
+
+.container {
+    max-width:800px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+}
+
+.field { margin-bottom:15px; }
+
+textarea { width:100%; padding:10px; }
+
+button {
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.save-btn { background:#27ae60; color:white; }
+.back-btn { background:#c49b3d; color:white; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <img src="https://www.composure.care/wp-content/uploads/2023/11/gsc2-logo.png" style="height: 60px;">
+    <h1>Ticket Details</h1>
+</div>
+
+<div class="container">
+
+<div class="field"><b>Name:</b> <span id="name"></span></div>
+<div class="field"><b>Room:</b> <span id="room"></span></div>
+<div class="field"><b>Category:</b> <span id="category"></span></div>
+<div class="field"><b>Description:</b> <span id="description"></span></div>
+<div class="field"><b>Priority:</b> <span id="priority"></span></div>
+
+<div class="field">
+<label>Status</label>
+<select id="status">
+<option>Open</option>
+<option>In Progress</option>
+<option>Closed</option>
+</select>
+</div>
+
+<div class="field">
+<label>Notes</label>
+<textarea id="notes"></textarea>
+</div>
+
+<button class="save-btn" onclick="saveChanges()">Save</button>
+<button class="back-btn" onclick="goBack()">Back</button>
+
+</div>
+
+<script>
+let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+let index = localStorage.getItem("selectedTicketIndex");
+let ticket = tickets[index];
+
+document.getElementById("name").innerText = ticket.residentName;
+document.getElementById("room").innerText = ticket.roomNumber;
+document.getElementById("category").innerText = ticket.category;
+document.getElementById("description").innerText = ticket.description;
+document.getElementById("priority").innerText = ticket.priority;
+document.getElementById("status").value = ticket.status;
+document.getElementById("notes").value = ticket.notes || "";
+
+function saveChanges() {
+    ticket.status = document.getElementById("status").value;
+    ticket.notes = document.getElementById("notes").value;
+
+    tickets[index] = ticket;
+    localStorage.setItem("tickets", JSON.stringify(tickets));
+
+    alert("Saved!");
+}
+
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

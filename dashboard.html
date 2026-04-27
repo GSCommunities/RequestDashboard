@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IT Service Request System</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.layout {
+    display: flex;
+}
+
+/* SIDEBAR */
+
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 25px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #f0f0f0;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+select {
+    padding: 5px;
+}
+
+button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.report-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #c49b3d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background: #3498db;
+    color: white;
+}
+
+.new-ticket-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #c49b3d;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="header">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <img src="https://www.composure.care/wp-content/uploads/2023/11/gsc2-logo.png" style="height: 70px;">
+    </div>
+</div>
+
+<div class="layout">
+
+    
+
+    <div class="main">
+
+        <h1>Ticket Dashboard</h1>
+
+        <div class="cards">
+            <div class="card" id="totalTickets">Total: 0</div>
+            <div class="card" id="openTickets">Open: 0</div>
+            <div class="card" id="inProgress">In Progress: 0</div>
+            <div class="card" id="closedTickets">Closed: 0</div>
+        </div>
+
+        <table id="ticketTable">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="window.location.href='reports.html'" style="margin-top:20px;">
+    View Reports
+</button>
+
+    </div>
+</div>
+
+<script>
+let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+function renderTable() {
+    const tbody = document.querySelector("#ticketTable tbody");
+    tbody.innerHTML = "";
+
+    let open = 0;
+    let inProgress = 0;
+    let closed = 0;
+
+    tickets.forEach((ticket, index) => {
+
+        if (ticket.status === "Open") open++;
+        if (ticket.status === "In Progress") inProgress++;
+        if (ticket.status === "Closed") closed++;
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${ticket.residentName}</td>
+            <td>${index + 1}</td>
+            <td>${ticket.category}</td>
+            <td>${ticket.priority}</td>
+            <td>
+                <select onchange="updateStatus(${index}, this.value)">
+                    <option ${ticket.status === "Open" ? "selected" : ""}>Open</option>
+                    <option ${ticket.status === "In Progress" ? "selected" : ""}>In Progress</option>
+                    <option ${ticket.status === "Closed" ? "selected" : ""}>Closed</option>
+                </select>
+            </td>
+            <td>
+                <button class="view-btn" onclick="viewTicket(${index})">View</button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+
+    document.getElementById("totalTickets").innerText = "Total: " + tickets.length;
+    document.getElementById("openTickets").innerText = "Open: " + open;
+    document.getElementById("inProgress").innerText = "In Progress: " + inProgress;
+    document.getElementById("closedTickets").innerText = "Closed: " + closed;
+}
+
+function updateStatus(index, status) {
+    tickets[index].status = status;
+    localStorage.setItem("tickets", JSON.stringify(tickets));
+    renderTable();
+}
+
+function viewTicket(index) {
+    localStorage.setItem("selectedTicketIndex", index);
+    window.location.href = "ticket-details.html";
+    
+
+    alert(
+        "Category: " + ticket.category + "\n" +
+        "Priority: " + ticket.priority + "\n" +
+        "Status: " + ticket.status + "\n\n" +
+        "Description:\n" + ticket.description
+    );
+}
+
+renderTable();
+</script>
+
+</body>
+</html>
