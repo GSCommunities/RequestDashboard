@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IT Service Request</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    height: 50px;   
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+h1 {
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: right;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-option {
+    background: #eaeaea;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #c49b3d;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-top: -47px;
+}
+
+.footer-note {
+    margin-top: 30px;
+    padding: 15px;
+    background: #eee;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="container">
+
+       <div style="display: flex; align-items: center; gap: 15px;">
+       <img src="https://www.composure.care/wp-content/uploads/2023/11/gsc2-logo.png"
+        style="height: 100px;">
+       </div>
+
+    <h1>IT Service Request</h1>
+    <div class="subtitle">We're here to help with your technology needs</div>
+
+    <form id="ticketForm">
+
+        <!-- CATEGORY -->
+        <div class="section">
+            <label>Resident Name</label>
+            <input type="text" id="residentName" placeholder="Enter your name..." required>
+        </div>
+
+        <div class="section">
+            <label>Room Number</label>
+            <input type="text" id="roomNumber" placeholder="e.g. 204" required>
+        </div>
+
+        <div class="section">
+            <label>What do you need help with?</label>
+            <select id="category" required>
+                <option value="">-- Please select a category --</option>
+                <option>Internet Issue</option>
+                <option>Device Problem</option>
+                <option>Email Issue</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="section">
+            <label>How urgent is this?</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="priority" value="Low" required>
+                    Not urgent - I can wait a few days
+                </label>
+
+                <label class="radio-option">
+                    <input type="radio" name="priority" value="Medium">
+                    Moderate - Would like help within a day
+                </label>
+
+                <label class="radio-option">
+                    <input type="radio" name="priority" value="High">
+                    Urgent - I need help right away
+                </label>
+            </div>
+        </div>
+
+        <div class="section">
+            <label>Please describe your issue</label>
+            <textarea id="description" rows="5" placeholder="Tell us what's happening..."></textarea>
+        </div>
+
+        <div class="footer-note">
+            Need immediate assistance? Call IT Support: <b>(555) 123-4567</b>
+        </div>
+
+        <button type="submit">Submit Request</button>
+
+    </form>
+</div>
+
+<script>
+document.getElementById("ticketForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const priority = document.querySelector('input[name="priority"]:checked');
+
+    const ticket = {
+        residentName: document.getElementById("residentName").value,
+        roomNumber: document.getElementById("roomNumber").value,
+        category: document.getElementById("category").value,
+        description: document.getElementById("description").value,
+        priority: priority ? priority.value : "Low",
+        status: "Open"
+        
+    };
+
+    let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+    tickets.push(ticket);
+    localStorage.setItem("tickets", JSON.stringify(tickets));
+
+    alert("Ticket submitted successfully!");
+    document.getElementById("ticketForm").reset();
+});
+</script>
+
+</body>
+</html>
