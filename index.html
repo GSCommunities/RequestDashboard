@@ -108,6 +108,7 @@ button {
         style="height: 100px;">
        </div>
 
+
     <h1>IT Service Request</h1>
     <div class="subtitle">We're here to help with your technology needs</div>
 
@@ -165,12 +166,14 @@ button {
         </div>
 
         <button type="submit">Submit Request</button>
-        <button onclick="goToDashboard()" style="background:#2c3e50; margin-top:10px;">
+
+        
+    </form>
+    
+<button type="button" onclick="goToDashboard()" style="background:#2c3e50; margin-top:10px;">
     Employee Access
 </button>
-        
-
-    </form>
+    
 </div>
 
 <script>
@@ -188,9 +191,8 @@ document.getElementById("ticketForm").addEventListener("submit", function(e) {
         status: "Open"
         
     };
-
-    <script>
-function goToDashboard() {
+    
+    function goToDashboard() {
     const password = prompt("Enter employee passcode:");
 
     if (password === "admin123") {
@@ -199,7 +201,6 @@ function goToDashboard() {
         alert("Incorrect passcode.");
     }
 }
-</script>
 
     let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
     tickets.push(ticket);
@@ -208,6 +209,17 @@ function goToDashboard() {
     alert("Ticket submitted successfully!");
     document.getElementById("ticketForm").reset();
 });
+
+function goToDashboard() {
+    const password = prompt("Enter employee passcode:");
+
+    if (password === "dashboard123") {
+        window.location.href = "dashboard.html";
+    } else if (password !== null) {
+        alert("Incorrect passcode.");
+    }
+}
+
 </script>
 
 </body>
